@@ -1,0 +1,100 @@
+job-application-tracker/
+│
+├── backend/
+│   │
+│   ├── app/
+│   │   ├── main.py
+│   │   ├── database.py
+│   │   ├── config.py
+│   │   │
+│   │   ├── models/
+│   │   │   ├── user.py
+│   │   │   ├── application.py
+│   │   │   ├── company.py
+│   │   │   ├── interview.py
+│   │   │   └── resume.py
+│   │   │
+│   │   ├── schemas/
+│   │   │   ├── user.py
+│   │   │   ├── application.py
+│   │   │   ├── company.py
+│   │   │   ├── interview.py
+│   │   │   └── resume.py
+│   │   │
+│   │   ├── routers/
+│   │   │   ├── auth.py
+│   │   │   ├── users.py
+│   │   │   ├── applications.py
+│   │   │   ├── companies.py
+│   │   │   ├── interviews.py
+│   │   │   ├── resumes.py
+│   │   │   └── dashboard.py
+│   │   │
+│   │   ├── services/
+│   │   │   ├── application_service.py
+│   │   │   ├── interview_service.py
+│   │   │   ├── dashboard_service.py
+│   │   │   └── resume_service.py
+│   │   │
+│   │   ├── auth/
+│   │   │   ├── jwt_handler.py
+│   │   │   ├── hashing.py
+│   │   │   └── dependencies.py
+│   │   │
+│   │   ├── utils/
+│   │   │   ├── file_upload.py
+│   │   │   ├── validators.py
+│   │   │   └── helpers.py
+│   │   │
+│   │   └── uploads/
+│   │       └── resumes/
+│   │
+│   ├── migrations/
+│   │
+│   ├── tests/
+│   │   ├── test_auth.py
+│   │   ├── test_applications.py
+│   │   └── test_dashboard.py
+│   │
+│   ├── requirements.txt
+│   ├── Dockerfile
+│   ├── docker-compose.yml
+│   ├── .env
+│   ├── .gitignore
+│   └── README.md
+│
+├── frontend/
+│   │
+│   ├── public/
+│   │
+│   ├── src/
+│   │   ├── assets/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   │   ├── Login.jsx
+│   │   │   ├── Register.jsx
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── Applications.jsx
+│   │   │   ├── Companies.jsx
+│   │   │   ├── Interviews.jsx
+│   │   │   ├── Resumes.jsx
+│   │   │   └── Profile.jsx
+│   │   │
+│   │   ├── services/
+│   │   │   └── api.js
+│   │   │
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   └── index.css
+│   │
+│   ├── package.json
+│   └── vite.config.js
+│
+├── docs/
+│   ├── API_Documentation.md
+│   ├── ER_Diagram.png
+│   └── Database_Schema.md
+│
+├── screenshots/
+│
+└── LICENSE

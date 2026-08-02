@@ -1,0 +1,30 @@
+Browser
+     │
+React Frontend
+     │
+REST API
+     │
+FastAPI
+     │
+SQLAlchemy
+     │
+PostgreSQL
+
+
+User
+
+↓
+
+Login Page
+
+↓
+
+FastAPI
+
+↓
+
+JWT Generated
+
+↓
+
+Dashboard

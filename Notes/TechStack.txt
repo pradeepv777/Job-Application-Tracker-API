@@ -1,0 +1,85 @@
+Tech Stack
+
+Backend
+--------
+• Python
+• FastAPI
+• Uvicorn
+• Pydantic
+
+Database
+--------
+• PostgreSQL
+
+ORM
+--------
+• SQLAlchemy 2.0
+• Alembic (Database Migrations)
+
+Authentication
+--------
+• JWT (JSON Web Tokens)
+• Passlib (bcrypt)
+• python-jose
+
+Frontend
+--------
+Option 1 (Recommended)
+• React
+• Vite
+• Tailwind CSS
+• Axios
+
+Option 2 (Simpler)
+• HTML
+• CSS
+• JavaScript
+• Jinja2 Templates
+
+File Uploads
+--------
+• FastAPI UploadFile
+• Local Storage
+(Optional: AWS S3)
+
+API Testing
+--------
+• Postman
+
+Database Management
+--------
+• pgAdmin 4
+
+Version Control
+--------
+• Git
+• GitHub
+
+Deployment
+--------
+• Docker
+• Render
+(Optional: AWS EC2)
+
+Development Tools
+--------
+• VS Code
+• Python Virtual Environment (venv)
+
+Skills Demonstrated
+--------
+• Python
+• FastAPI
+• REST APIs
+• PostgreSQL
+• SQLAlchemy
+• JWT Authentication
+• Password Hashing
+• CRUD Operations
+• File Uploads
+• API Validation
+• Docker
+• Git & GitHub
+• Backend Development
+• Database Design
+• Deployment

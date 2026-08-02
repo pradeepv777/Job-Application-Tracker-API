@@ -1,0 +1,598 @@
+# Project Title
+
+Job Application Tracker
+
+--------------------------------------------------------------------------------
+
+# Project Overview
+
+The Job Application Tracker is a full-stack web application that helps job seekers organize, monitor, and manage their entire placement and job application journey. Instead of maintaining spreadsheets or notes, users can track every application, interview, coding assessment, offer, and rejection from one centralized dashboard.
+
+The application focuses on backend development, authentication, database design, REST APIs, and deployment, making it an excellent portfolio project for Software Engineering and Python Backend Developer roles.
+
+--------------------------------------------------------------------------------
+
+# Problem Statement
+
+Students often apply to dozens or even hundreds of companies during placement season.
+
+After a few weeks they usually forget:
+
+• Which companies they applied to
+• Which resume they uploaded
+• OA dates
+• Interview schedules
+• Current application status
+• Salary offered
+• HR contact details
+
+Most students manage everything using Excel sheets or handwritten notes.
+
+This application solves that problem.
+
+--------------------------------------------------------------------------------
+
+# Objectives
+
+• Build a production-ready backend using FastAPI
+• Learn REST API development
+• Learn authentication using JWT
+• Design a relational database
+• Practice CRUD operations
+• Implement file uploads
+• Deploy the application online
+
+--------------------------------------------------------------------------------
+
+# Target Users
+
+• College Students
+• Freshers
+• Job Seekers
+• Internship Applicants
+
+--------------------------------------------------------------------------------
+
+# Tech Stack
+
+Backend
+--------
+Python
+FastAPI
+
+Database
+--------
+PostgreSQL
+
+ORM
+--------
+SQLAlchemy
+
+Authentication
+--------
+JWT Authentication
+Password Hashing (bcrypt)
+
+Frontend
+--------
+React
+or
+HTML + CSS + JavaScript
+
+Deployment
+--------
+Docker
+Render / AWS EC2
+
+Version Control
+--------
+Git
+GitHub
+
+--------------------------------------------------------------------------------
+
+# Main Modules
+
+1. User Authentication
+
+Features
+
+• Register Account
+• Login
+• Logout
+• Password Encryption
+• JWT Authentication
+• Protected Routes
+
+Tables
+
+Users
+
+Columns
+
+User ID
+Name
+Email
+Password
+Created At
+
+--------------------------------------------------------------------------------
+
+2. Dashboard
+
+After login the user sees
+
+• Total Applications
+• Pending Applications
+• Interviews Scheduled
+• Offers Received
+• Rejections
+• Acceptance Rate
+• Upcoming Interviews
+
+Example
+
+Applications : 42
+
+Pending : 18
+
+Interview : 8
+
+Rejected : 13
+
+Offer : 3
+
+--------------------------------------------------------------------------------
+
+3. Job Application Management
+
+The core module.
+
+Each application stores
+
+• Company Name
+• Role
+• Location
+• Salary
+• Application Date
+• Resume Used
+• Job Link
+• HR Contact
+• Status
+• Notes
+
+Statuses
+
+Applied
+
+OA Scheduled
+
+OA Completed
+
+Technical Interview
+
+HR Interview
+
+Offer
+
+Rejected
+
+Withdrawn
+
+--------------------------------------------------------------------------------
+
+4. Resume Manager
+
+Users can upload multiple resumes.
+
+Examples
+
+Backend Resume
+
+AI Resume
+
+Data Engineer Resume
+
+SDE Resume
+
+Every application stores which resume was submitted.
+
+File Upload
+
+PDF only
+
+Stored locally or cloud storage.
+
+--------------------------------------------------------------------------------
+
+5. Company Details
+
+Store
+
+Company Name
+
+Industry
+
+Website
+
+Careers Page
+
+HR Email
+
+Recruiter Name
+
+Glassdoor Rating (optional)
+
+Notes
+
+--------------------------------------------------------------------------------
+
+6. Interview Tracker
+
+Store every interview.
+
+Fields
+
+Company
+
+Round Number
+
+Round Type
+
+Date
+
+Time
+
+Interviewer
+
+Platform
+
+Result
+
+Feedback
+
+Example
+
+Company
+
+Amazon
+
+Round
+
+Technical Round 2
+
+Questions
+
+Reverse Linked List
+
+LRU Cache
+
+Behavioral
+
+STAR Questions
+
+Result
+
+Passed
+
+--------------------------------------------------------------------------------
+
+7. Online Assessment Tracker
+
+Track coding assessments.
+
+Store
+
+Company
+
+Platform
+
+Date
+
+Duration
+
+Difficulty
+
+Questions Asked
+
+Score
+
+Result
+
+--------------------------------------------------------------------------------
+
+8. Search & Filter
+
+Search by
+
+Company
+
+Role
+
+Status
+
+Location
+
+Salary
+
+Resume Used
+
+Date
+
+--------------------------------------------------------------------------------
+
+9. Analytics Dashboard
+
+Display charts
+
+Applications by Month
+
+Applications by Status
+
+Offers vs Rejections
+
+Average Salary
+
+Companies Applied
+
+Interview Success Rate
+
+Most Applied Roles
+
+--------------------------------------------------------------------------------
+
+10. Notes
+
+Every application has notes.
+
+Example
+
+Google
+
+Asked about
+
+Binary Search
+
+Graphs
+
+Docker
+
+System Design Basics
+
+Need to revise Graphs.
+
+--------------------------------------------------------------------------------
+
+11. Reminders
+
+Upcoming Interview
+
+Upcoming OA
+
+Application Deadline
+
+Resume Update Reminder
+
+Email Notification (optional)
+
+--------------------------------------------------------------------------------
+
+12. Profile
+
+User Information
+
+Skills
+
+Resume Count
+
+Applications
+
+Interview Count
+
+Offer Count
+
+--------------------------------------------------------------------------------
+
+# Database Tables
+
+Users
+
+Applications
+
+Companies
+
+Resumes
+
+Interviews
+
+OnlineAssessments
+
+Notes
+
+Notifications
+
+--------------------------------------------------------------------------------
+
+# REST APIs
+
+Authentication
+
+POST /register
+
+POST /login
+
+GET /profile
+
+PUT /profile
+
+Applications
+
+POST /applications
+
+GET /applications
+
+GET /applications/{id}
+
+PUT /applications/{id}
+
+DELETE /applications/{id}
+
+Companies
+
+POST /companies
+
+GET /companies
+
+PUT /companies/{id}
+
+DELETE /companies/{id}
+
+Interviews
+
+POST /interviews
+
+GET /interviews
+
+PUT /interviews/{id}
+
+DELETE /interviews/{id}
+
+Resumes
+
+POST /resume/upload
+
+GET /resume
+
+DELETE /resume/{id}
+
+--------------------------------------------------------------------------------
+
+# Advanced Features
+
+JWT Authentication
+
+Password Hashing
+
+Pagination
+
+Filtering
+
+Sorting
+
+Searching
+
+Validation
+
+Error Handling
+
+Logging
+
+Environment Variables
+
+Swagger Documentation
+
+File Uploads
+
+Docker Support
+
+--------------------------------------------------------------------------------
+
+# Optional Features
+
+Email Notifications
+
+Dark Mode
+
+Calendar View
+
+Export to Excel
+
+Export to PDF
+
+Interview Timeline
+
+AI Resume Suggestions
+
+Interview Question Generator
+
+--------------------------------------------------------------------------------
+
+# Skills Demonstrated
+
+Python
+
+FastAPI
+
+REST APIs
+
+Authentication
+
+JWT
+
+PostgreSQL
+
+SQLAlchemy
+
+Database Design
+
+CRUD Operations
+
+Backend Architecture
+
+File Uploads
+
+Docker
+
+Git
+
+Deployment
+
+API Documentation
+
+--------------------------------------------------------------------------------
+
+# Learning Outcomes
+
+After completing this project you will understand
+
+• Building production-ready REST APIs
+• Database schema design
+• Authentication using JWT
+• Password hashing
+• Relationships between database tables
+• CRUD operations
+• File upload handling
+• API validation
+• Deployment using Docker
+• Hosting a backend application
+• Writing clean, scalable backend code
+
+--------------------------------------------------------------------------------
+
+# Estimated Timeline
+
+Week 1
+• FastAPI Basics
+• Database Setup
+• Authentication
+
+Week 2
+• CRUD APIs
+• Resume Upload
+• Search & Filters
+
+Week 3
+• Dashboard
+• Analytics
+• Deployment
+• Testing
+• Documentation
+
+Estimated Completion Time:
+2–3 weeks (working 2–3 hours per day)
+
+--------------------------------------------------------------------------------
+
+# Resume Description
+
+Developed a full-stack Job Application Tracker using FastAPI and PostgreSQL to help users manage job applications, interviews, online assessments, and resume versions. Implemented JWT authentication, CRUD APIs, file uploads, analytics dashboard, search and filtering, and deployed the application using Docker and cloud hosting.
