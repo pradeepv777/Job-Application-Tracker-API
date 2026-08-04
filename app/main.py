@@ -1,16 +1,14 @@
-from fastapi import FastAPI, status
-from app.schemas import Application,ApplicationResponse
+from fastapi import FastAPI
+from app.database import engine
+from app import models
+from app.routers import applications
 
-app = FastAPI()
+models.Base.metadata.create_all(bind=engine)
 
-
-@app.post(
-    "/applications",
-    response_model=ApplicationResponse,
-    status_code=status.HTTP_201_CREATED
+app = FastAPI(
+    title="Job Application Tracker API",
+    description="Backend API for managing job applications",
+    version="1.0.0"
 )
-def create_application(application: Application):
-    return {
-        "message": f"Application submitted to {application.company}",
-        "salary": application.salary
-    }
+
+app.include_router(applications.router)
