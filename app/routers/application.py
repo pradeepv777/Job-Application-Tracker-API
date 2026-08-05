@@ -1,5 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
+from app.auth.dependencies import get_current_user
+from app.models.user import User
 
 from app.database import get_db
 from app.schemas import (
@@ -53,9 +55,9 @@ def create_application(
     description="Returns all job applications."
 )
 def get_applications(
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
-
     applications = db.query(models.Application).all()
 
     return applications

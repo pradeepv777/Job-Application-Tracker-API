@@ -5,4 +5,4 @@ from .application import (
     ApplicationUpdate
 )
 
-from .user import UserCreate
+from .user import UserCreate, UserLogin
