@@ -1,9 +1,9 @@
 from fastapi import FastAPI
-from app.database import engine
+from app.database import Base, engine
 from app import models
-from app.routers import applications
+from app.routers import application, auth
 
-models.Base.metadata.create_all(bind=engine)
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="Job Application Tracker API",
@@ -11,4 +11,6 @@ app = FastAPI(
     version="1.0.0"
 )
 
-app.include_router(applications.router)
+app.include_router(application.router)
+app.include_router(auth.router)
+
