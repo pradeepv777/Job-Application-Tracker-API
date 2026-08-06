@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from app.auth.dependencies import get_current_user
 from app.models.user import User
 
+
 from app.database import get_db
 from app.schemas import (
     Application,
@@ -27,14 +28,16 @@ router = APIRouter(
 )
 def create_application(
     application: Application,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
 
     db_application = models.Application(
         company=application.company,
         role=application.role,
         salary=application.salary,
-        status=application.status
+        status=application.status,
+        user_id=current_user.id
     )
 
     db.add(db_application)
@@ -58,7 +61,11 @@ def get_applications(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    applications = db.query(models.Application).all()
+    applications = (
+        db.query(models.Application)
+        .filter(models.Application.user_id == current_user.id)
+        .all()
+    )
 
     return applications
 
@@ -71,7 +78,8 @@ def get_applications(
 )
 def get_application(
     application_id: int,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
 
     if application_id <= 0:
@@ -91,6 +99,12 @@ def get_application(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Application not found"
         )
+    
+    if application.user_id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Not Authorized"
+        )
 
     return application
 
@@ -104,7 +118,8 @@ def get_application(
 def update_application(
     application_id: int,
     updated_application: ApplicationUpdate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
 
     application = (
@@ -117,6 +132,11 @@ def update_application(
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Application not found"
+        )
+    if application.user_id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Not authorized"
         )
 
     application.company = updated_application.company
@@ -137,7 +157,8 @@ def update_application(
 )
 def delete_application(
     application_id: int,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
 ):
 
     application = (
@@ -150,6 +171,12 @@ def delete_application(
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Application not found"
+        )
+    
+    if application.user_id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Not authorized"
         )
 
     db.delete(application)

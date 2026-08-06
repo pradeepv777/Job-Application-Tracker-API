@@ -8,6 +8,7 @@ from app.auth.hashing import hash_password, verify_password
 from app.auth.jwt_handler import create_access_token
 from app.models.user import User
 from fastapi.security import OAuth2PasswordRequestForm
+from app.auth.dependencies import get_current_user
 
 router = APIRouter(
     prefix="/auth",
