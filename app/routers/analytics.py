@@ -1,4 +1,6 @@
-from fastapi import APIRouter, Depends
+from datetime import date
+
+from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 from sqlalchemy import func, case
 
@@ -13,8 +15,8 @@ router = APIRouter(
 )
 
 
-@router.get("")
-def analytics(
+@router.get("", summary="Get analytics dashboard", status_code=status.HTTP_200_OK)
+def get_analytics(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
@@ -40,12 +42,10 @@ def analytics(
         .all()
     )
 
-    status_dict = {
-        status: count
-        for status, count in status_counts
-    }
+    status_dict = {s: count for s, count in status_counts}
 
-    # Interview statistics
+    # Interview statistics + upcoming interviews (date >= today)
+    today = date.today()
     interview_stats = (
         db.query(
             func.count(models.Interview.id).label("total"),
@@ -61,14 +61,18 @@ def analytics(
                     else_=0
                 )
             ).label("completed"),
+            func.sum(
+                case(
+                    (models.Interview.date >= today, 1),
+                    else_=0
+                )
+            ).label("upcoming"),
         )
         .join(
             models.Application,
             models.Interview.application_id == models.Application.id
         )
-        .filter(
-            models.Application.user_id == current_user.id
-        )
+        .filter(models.Application.user_id == current_user.id)
         .first()
     )
 
@@ -81,23 +85,26 @@ def analytics(
         else 0
     )
 
+    average_salary = round(float(salary_stats.average_salary), 2) if salary_stats.average_salary else 0
+
     return {
         "salary": {
-            "average": salary_stats.average_salary or 0,
+            "average": average_salary,
             "highest": salary_stats.highest_salary or 0,
             "lowest": salary_stats.lowest_salary or 0,
         },
         "applications": {
+            "total": total_applications,
             "applied": status_dict.get("Applied", 0),
             "interview": status_dict.get("Interview", 0),
             "offer": status_dict.get("Offer", 0),
             "rejected": status_dict.get("Rejected", 0),
-            "total": total_applications
         },
         "interviews": {
             "total": interview_stats.total or 0,
             "scheduled": interview_stats.scheduled or 0,
             "completed": interview_stats.completed or 0,
+            "upcoming": interview_stats.upcoming or 0,
         },
-        "success_rate": success_rate
+        "success_rate": success_rate,
     }

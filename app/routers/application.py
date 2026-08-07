@@ -1,9 +1,9 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+import math
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy.orm import Session
+
 from app.auth.dependencies import get_current_user
 from app.models.user import User
-import math
-from fastapi import Query
 from app.database import get_db
 from app.schemas import (
     Application,
@@ -13,8 +13,6 @@ from app.schemas import (
     PaginatedApplicationResponse,
 )
 from app import models
-from app.routers import resume
-
 
 
 router = APIRouter(

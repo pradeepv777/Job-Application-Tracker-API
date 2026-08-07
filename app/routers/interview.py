@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.database import get_db
@@ -15,33 +15,34 @@ router = APIRouter(
     prefix="/interviews",
     tags=["Interviews"]
 )
+
+
 @router.post(
     "",
-    response_model=InterviewRead
+    response_model=InterviewRead,
+    summary="Create interview",
+    status_code=status.HTTP_201_CREATED
 )
 def create_interview(
     interview: InterviewCreate,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-
     application = (
         db.query(models.Application)
-        .filter(
-            models.Application.id == interview.application_id
-        )
+        .filter(models.Application.id == interview.application_id)
         .first()
     )
 
     if application is None:
         raise HTTPException(
-            status_code=404,
+            status_code=status.HTTP_404_NOT_FOUND,
             detail="Application not found"
         )
 
     if application.user_id != current_user.id:
         raise HTTPException(
-            status_code=403,
+            status_code=status.HTTP_403_FORBIDDEN,
             detail="Not authorized"
         )
 
@@ -61,41 +62,44 @@ def create_interview(
 
     return db_interview
 
+
 @router.get(
     "/application/{application_id}",
-    response_model=list[InterviewRead]
+    response_model=list[InterviewRead],
+    summary="Get interviews for application",
+    status_code=status.HTTP_200_OK
 )
 def get_application_interviews(
     application_id: int,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-
     application = (
         db.query(models.Application)
-        .filter(
-            models.Application.id == application_id
-        )
+        .filter(models.Application.id == application_id)
         .first()
     )
 
     if application is None:
         raise HTTPException(
-            status_code=404,
+            status_code=status.HTTP_404_NOT_FOUND,
             detail="Application not found"
         )
 
     if application.user_id != current_user.id:
         raise HTTPException(
-            status_code=403,
+            status_code=status.HTTP_403_FORBIDDEN,
             detail="Not authorized"
         )
 
     return application.interviews
 
+
 @router.put(
     "/{interview_id}",
-    response_model=InterviewRead
+    response_model=InterviewRead,
+    summary="Update interview",
+    status_code=status.HTTP_200_OK
 )
 def update_interview(
     interview_id: int,
@@ -103,24 +107,21 @@ def update_interview(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-
     interview = (
         db.query(models.Interview)
-        .filter(
-            models.Interview.id == interview_id
-        )
+        .filter(models.Interview.id == interview_id)
         .first()
     )
 
     if interview is None:
         raise HTTPException(
-            status_code=404,
+            status_code=status.HTTP_404_NOT_FOUND,
             detail="Interview not found"
         )
 
     if interview.application.user_id != current_user.id:
         raise HTTPException(
-            status_code=403,
+            status_code=status.HTTP_403_FORBIDDEN,
             detail="Not authorized"
         )
 
@@ -136,41 +137,34 @@ def update_interview(
 
     return interview
 
+
 @router.delete(
     "/{interview_id}",
-    status_code=204
+    summary="Delete interview",
+    status_code=status.HTTP_204_NO_CONTENT
 )
 def delete_interview(
     interview_id: int,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-
     interview = (
         db.query(models.Interview)
-        .filter(
-            models.Interview.id == interview_id
-        )
+        .filter(models.Interview.id == interview_id)
         .first()
     )
 
     if interview is None:
         raise HTTPException(
-            status_code=404,
+            status_code=status.HTTP_404_NOT_FOUND,
             detail="Interview not found"
         )
 
     if interview.application.user_id != current_user.id:
         raise HTTPException(
-            status_code=403,
+            status_code=status.HTTP_403_FORBIDDEN,
             detail="Not authorized"
         )
 
     db.delete(interview)
     db.commit()
-
-    return
-summary="Create interview"
-summary="Get interviews for application"
-summary="Update interview"
-summary="Delete interview"

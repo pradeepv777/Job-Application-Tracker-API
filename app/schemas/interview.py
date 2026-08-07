@@ -1,24 +1,27 @@
+from datetime import date, time
 from pydantic import BaseModel, Field
+from app.enums import InterviewResult
+
 
 class InterviewCreate(BaseModel):
     application_id: int
     round: str = Field(min_length=2)
-    date: str
-    time: str
+    date: date
+    time: time
     interviewer: str
     notes: str
-    result: str
+    result: InterviewResult
 
 
 class InterviewRead(BaseModel):
     id: int
     application_id: int
     round: str
-    date: str
-    time: str
+    date: date
+    time: time
     interviewer: str
     notes: str
-    result: str
+    result: InterviewResult
 
     class Config:
         from_attributes = True
@@ -26,8 +29,8 @@ class InterviewRead(BaseModel):
 
 class InterviewUpdate(BaseModel):
     round: str
-    date: str
-    time: str
+    date: date
+    time: time
     interviewer: str
     notes: str
-    result: str
+    result: InterviewResult

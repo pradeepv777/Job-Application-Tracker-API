@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, Date, Time
 from sqlalchemy.orm import relationship
 
 from app.database import Base
@@ -15,8 +15,8 @@ class Interview(Base):
     )
 
     round = Column(String)
-    date = Column(String)
-    time = Column(String)
+    date = Column(Date)
+    time = Column(Time)
     interviewer = Column(String)
     notes = Column(String)
     result = Column(String)

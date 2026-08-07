@@ -1,9 +1,8 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker, Session
+from app.config import settings
 
-DATABASE_URL = "postgresql+psycopg://postgres:root@localhost:5432/job_application_tracker"
-
-engine = create_engine(DATABASE_URL)
+engine = create_engine(settings.DATABASE_URL)
 
 SessionLocal = sessionmaker(
     autocommit=False,
