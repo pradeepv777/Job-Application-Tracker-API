@@ -3,5 +3,7 @@ __pycache__/
 .git/
 .gitignore
 .env
+.env.*
 .pytest_cache/
 *.pyc
+Notes/

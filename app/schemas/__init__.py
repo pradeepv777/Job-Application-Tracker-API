@@ -8,7 +8,8 @@ from .application import (
 
 from .user import (
     UserCreate,
-    UserLogin,
+    RegisterResponse,
+    TokenResponse,
 )
 
 from .interview import (

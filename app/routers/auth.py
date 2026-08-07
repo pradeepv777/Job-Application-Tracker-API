@@ -1,29 +1,33 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Request, status
+from fastapi.security import OAuth2PasswordRequestForm
+from slowapi import Limiter
+from slowapi.util import get_remote_address
 from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app import models
-from app.schemas import UserCreate, UserLogin
+from app.schemas import UserCreate, RegisterResponse, TokenResponse
 from app.auth.hashing import hash_password, verify_password
 from app.auth.jwt_handler import create_access_token
 from app.models.user import User
-from fastapi.security import OAuth2PasswordRequestForm
-from app.auth.dependencies import get_current_user
+
+limiter = Limiter(key_func=get_remote_address)
 
 router = APIRouter(
     prefix="/auth",
     tags=["Authentication"]
 )
 
+
 @router.post(
     "/register",
+    response_model=RegisterResponse,
     status_code=status.HTTP_201_CREATED
 )
 def register(
     user: UserCreate,
     db: Session = Depends(get_db)
 ):
-
     existing_user = (
         db.query(models.User)
         .filter(models.User.email == user.email)
@@ -33,7 +37,7 @@ def register(
     if existing_user:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Email already registered"
+            detail="Registration failed. Please check your details."
         )
 
     hashed_pw = hash_password(user.password)
@@ -48,44 +52,36 @@ def register(
     db.commit()
     db.refresh(db_user)
 
-    return {
-        "message": "User registered successfully"
-    }
+    return RegisterResponse(message="User registered successfully")
 
-@router.post("/login")
+
+@router.post(
+    "/login",
+    response_model=TokenResponse
+)
+@limiter.limit("5/minute")
 def login(
+    request: Request,
     form_data: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db)
 ):
-
     db_user = (
         db.query(User)
         .filter(User.email == form_data.username)
         .first()
     )
 
-    if not db_user:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid email or password"
-        )
-
-    if not verify_password(
-        form_data.password,
-        db_user.hashed_password
-    ):
+    if not db_user or not verify_password(form_data.password, db_user.hashed_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid email or password"
         )
 
     access_token = create_access_token(
-        data={
-            "sub": str(db_user.id)
-        }
+        data={"sub": str(db_user.id)}
     )
 
-    return {
-        "access_token": access_token,
-        "token_type": "bearer"
-    }
+    return TokenResponse(
+        access_token=access_token,
+        token_type="bearer"
+    )
