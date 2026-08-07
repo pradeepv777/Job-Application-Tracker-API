@@ -15,6 +15,8 @@ class User(Base):
 
     hashed_password = Column(String, nullable=False)
 
+    resume_path = Column(String, nullable=True)
+
     applications = relationship(
         "Application",
         back_populates="owner"

@@ -26,3 +26,9 @@ class ApplicationUpdate(BaseModel):
     role: str = Field(min_length=3, max_length=100)
     salary: int = Field(gt=10000)
     status: str
+class PaginatedApplicationResponse(BaseModel):
+    page: int
+    limit: int
+    total: int
+    total_pages: int
+    items: list[ApplicationRead]

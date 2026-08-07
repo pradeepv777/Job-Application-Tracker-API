@@ -2,16 +2,20 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from app.auth.dependencies import get_current_user
 from app.models.user import User
-
-
+import math
+from fastapi import Query
 from app.database import get_db
 from app.schemas import (
     Application,
     ApplicationResponse,
     ApplicationRead,
-    ApplicationUpdate
+    ApplicationUpdate,
+    PaginatedApplicationResponse,
 )
 from app import models
+from app.routers import resume
+
+
 
 router = APIRouter(
     prefix="/applications",
@@ -53,21 +57,62 @@ def create_application(
 
 @router.get(
     "",
-    response_model=list[ApplicationRead],
+    response_model=PaginatedApplicationResponse,
     summary="Get all applications",
     description="Returns all job applications."
 )
 def get_applications(
+    search: str | None = None,
+    status: str | None = None,
+    page: int = Query(1, ge=1),
+    limit: int = Query(10, ge=1, le=100),
+    sort_by: str = "id",
+    order: str = "asc",
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    applications = (
+    query = (
         db.query(models.Application)
         .filter(models.Application.user_id == current_user.id)
+    )
+
+    if search:
+        query = query.filter(
+            models.Application.company.ilike(f"%{search}%")
+        )
+
+    if status:
+        query = query.filter(models.Application.status == status)
+    offset = (page - 1) * limit
+    total = query.count()
+    total_pages = max(1, math.ceil(total / limit))
+    sort_columns = {
+        "id": models.Application.id,
+        "company": models.Application.company,
+        "salary": models.Application.salary,
+        "status": models.Application.status,
+    }
+    sort_column = sort_columns.get(sort_by, models.Application.id)
+
+    if order.lower() == "desc":
+        query = query.order_by(sort_column.desc())
+    else:
+        query = query.order_by(sort_column.asc())
+
+    applications = (
+        query
+        .offset(offset)
+        .limit(limit)
         .all()
     )
 
-    return applications
+    return {
+        "page": page,
+        "limit": limit,
+        "total": total,
+        "total_pages": total_pages,
+        "items": applications
+    }
 
 
 @router.get(
@@ -107,6 +152,7 @@ def get_application(
         )
 
     return application
+
 
 
 @router.put(

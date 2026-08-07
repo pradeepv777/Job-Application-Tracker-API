@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 
 from app.database import Base
+from sqlalchemy.orm import relationship
 
 
 class Application(Base):
@@ -27,3 +28,8 @@ class Application(Base):
         "User",
         back_populates="applications"
     )
+    interviews = relationship(
+    "Interview",
+    back_populates="application",
+    cascade="all, delete"
+)
