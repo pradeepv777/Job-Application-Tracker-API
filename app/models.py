@@ -1,18 +1,7 @@
-from sqlalchemy import Column, Integer, String
+# This file is intentionally kept for backward compatibility.
+# All models are defined in app/models/ package.
+# Do not add models here.
 
-from app.database import Base
-
-
-class Application(Base):
-
-    __tablename__ = "applications"
-
-    id = Column(Integer, primary_key=True, index=True)
-
-    company = Column(String, nullable=False)
-
-    role = Column(String, nullable=False)
-
-    salary = Column(Integer, nullable=False)
-
-    status = Column(String, nullable=False)
+from app.models.user import User
+from app.models.application import Application
+from app.models.interview import Interview

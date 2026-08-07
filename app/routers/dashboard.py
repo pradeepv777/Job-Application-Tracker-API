@@ -27,9 +27,6 @@ def dashboard(
         .scalar()
     )
 
-    return {
-        "total_applications": total
-    }
     applied = (
         db.query(func.count(models.Application.id))
         .filter(
@@ -66,8 +63,8 @@ def dashboard(
         .scalar()
     )
 
-    return{
-        "total_applications" : total,
+    return {
+        "total_applications": total,
         "applied": applied,
         "interview": interview,
         "offer": offer,
