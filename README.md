@@ -1,5 +1,7 @@
 ﻿# Job Application Tracker - Backend API
 
+![Tests](https://github.com/pradeepv777/Job-Application-Tracker-Backend/actions/workflows/test.yml/badge.svg)
+
 A **FastAPI** backend that helps job seekers organize and manage their entire placement journey. Track applications, interviews, resumes, and get analytics - all through a clean REST API.
 
 ---
